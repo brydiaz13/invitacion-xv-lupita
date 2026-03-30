@@ -118,15 +118,6 @@
             }, i * 100);
         }
     }
-                
-                container.appendChild(confetti);
-                
-                setTimeout(function() {
-                    confetti.remove();
-                }, 6000);
-            }, i * 100);
-        }
-    }
 
     function createFlowers() {
         const container = document.getElementById('flowers-container');
