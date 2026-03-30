@@ -725,6 +725,7 @@ body {
     font-size: 1.5rem;
     opacity: 0.6;
     animation: flowerFloat linear infinite;
+    transition: transform 0.1s ease-out;
 }
 
 @keyframes flowerFloat {

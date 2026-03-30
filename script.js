@@ -2,6 +2,8 @@
     'use strict';
 
     const eventDate = new Date('June 20, 2026 15:00:00').getTime();
+    let mouseX = 0;
+    let mouseY = 0;
 
     function updateCountdown() {
         const daysEl = document.getElementById('days');
@@ -43,6 +45,42 @@
                 console.log('Reproducción automática bloqueada por el navegador');
             });
         }
+    }
+
+    function trackMouseMovement() {
+        document.addEventListener('mousemove', function(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        document.addEventListener('touchmove', function(e) {
+            if (e.touches.length > 0) {
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY;
+            }
+        });
+    }
+
+    function moveFlowersTowardsMouse() {
+        const flowers = document.querySelectorAll('.flower');
+        flowers.forEach(function(flower) {
+            const rect = flower.getBoundingClientRect();
+            const flowerCenterX = rect.left + rect.width / 2;
+            const flowerCenterY = rect.top + rect.height / 2;
+            
+            const dx = mouseX - flowerCenterX;
+            const dy = mouseY - flowerCenterY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            
+            // Flores se alejan del cursor (efecto repulsivo)
+            if (distance < 150) {
+                const angle = Math.atan2(dy, dx);
+                const force = (150 - distance) / 150;
+                flower.style.transform = 'translate(' + Math.cos(angle + Math.PI) * force * 40 + 'px, ' + Math.sin(angle + Math.PI) * force * 40 + 'px)';
+            } else {
+                flower.style.transform = 'translate(0, 0)';
+            }
+        });
     }
 
     updateCountdown();
@@ -95,22 +133,24 @@
                 
                 flower.style.left = Math.random() * 100 + '%';
                 flower.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
-                flower.style.animationDuration = (Math.random() * 15 + 20) + 's';
-                flower.style.animationDelay = Math.random() * 5 + 's';
+                flower.style.animationDuration = (Math.random() * 20 + 50) + 's';
+                flower.style.animationDelay = Math.random() * 10 + 's';
                 
                 container.appendChild(flower);
                 
                 setTimeout(function() {
                     flower.remove();
-                }, 40000);
-            }, i * 2000);
+                }, 80000);
+            }, i * 3000);
         }
     }
 
     function startAnimations() {
         createConfetti();
         createFlowers();
-        setInterval(createFlowers, 40000);
+        setInterval(createFlowers, 80000);
+        trackMouseMovement();
+        setInterval(moveFlowersTowardsMouse, 50);
     }
 
     function initScrollAnimations() {
