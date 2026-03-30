@@ -133,22 +133,22 @@
                 
                 flower.style.left = Math.random() * 100 + '%';
                 flower.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
-                flower.style.animationDuration = (Math.random() * 20 + 50) + 's';
-                flower.style.animationDelay = Math.random() * 10 + 's';
+                flower.style.animationDuration = (Math.random() * 40 + 100) + 's';
+                flower.style.animationDelay = Math.random() * 15 + 's';
                 
                 container.appendChild(flower);
                 
                 setTimeout(function() {
                     flower.remove();
-                }, 80000);
-            }, i * 3000);
+                }, 160000);
+            }, i * 5000);
         }
     }
 
     function startAnimations() {
         createConfetti();
         createFlowers();
-        setInterval(createFlowers, 80000);
+        setInterval(createFlowers, 160000);
         trackMouseMovement();
         setInterval(moveFlowersTowardsMouse, 50);
     }
