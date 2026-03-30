@@ -103,7 +103,7 @@
                 
                 confetti.style.left = Math.random() * 100 + '%';
                 confetti.style.backgroundColor = color;
-                confetti.style.animationDuration = (Math.random() * 5 + 8) + 's';
+                confetti.style.animationDuration = (Math.random() * 12 + 15) + 's';
                 confetti.style.animationDelay = Math.random() * 2 + 's';
                 
                 if (shape === 'circle') {
@@ -114,7 +114,7 @@
                 
                 setTimeout(function() {
                     confetti.remove();
-                }, 15000);
+                }, 29000);
             }, i * 100);
         }
     }
@@ -134,7 +134,7 @@
         
         const flowers = ['🌸', '💮', '💐', '🌺', '🌷', '🪻', '🪻', '✿', '❀'];
         
-        for (let i = 0; i < 30; i++) {
+        for (let i = 0; i < 60; i++) {
             setTimeout(function() {
                 const flower = document.createElement('div');
                 flower.className = 'flower';
