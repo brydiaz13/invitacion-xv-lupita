@@ -729,7 +729,7 @@ body {
 
 @keyframes flowerFloat {
     0% {
-        transform: translateY(100vh) rotate(0deg);
+        transform: translateY(-100px) rotate(0deg);
         opacity: 0;
     }
     10% {
@@ -739,7 +739,7 @@ body {
         opacity: 0.6;
     }
     100% {
-        transform: translateY(-100px) rotate(360deg);
+        transform: translateY(100vh) rotate(360deg);
         opacity: 0;
     }
 }
