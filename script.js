@@ -22,7 +22,12 @@
 
         if (!mascara) return;
 
+        let abierto = false;
+
         function abrirInvitacion() {
+            if (abierto) return;
+            abierto = true;
+
             mascara.classList.add('oculta');
             document.body.classList.remove('bloquea-scroll');
 
@@ -42,10 +47,6 @@
         }
 
         mascara.addEventListener('click', abrirInvitacion);
-        mascara.addEventListener('touchend', function(e) {
-            e.preventDefault();
-            abrirInvitacion();
-        });
     }
 
     /* ===================== CUENTA REGRESIVA ===================== */
