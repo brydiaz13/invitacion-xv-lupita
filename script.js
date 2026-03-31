@@ -2,15 +2,54 @@
     'use strict';
 
     const eventDate = new Date('June 20, 2026 15:00:00').getTime();
-    let mouseX = 0;
-    let mouseY = 0;
+    let currentSlide = 0;
 
+    /* ===================== PANTALLA DE CARGA ===================== */
+    function hidePreloader() {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            setTimeout(function() {
+                preloader.classList.add('oculto');
+            }, 1500);
+        }
+    }
+
+    /* ===================== MÁSCARA DE ENTRADA ===================== */
+    function initMascara() {
+        const btnEntrar = document.getElementById('btnEntrar');
+        const mascara = document.getElementById('mascara');
+        const mainContent = document.getElementById('mainContent');
+        const musicControl = document.getElementById('musicControl');
+
+        if (!btnEntrar || !mascara) return;
+
+        btnEntrar.addEventListener('click', function() {
+            mascara.classList.add('oculta');
+            document.body.classList.remove('bloquea-scroll');
+
+            if (mainContent) {
+                mainContent.style.display = 'block';
+                setTimeout(function() {
+                    mainContent.classList.add('visible');
+                }, 100);
+            }
+
+            if (musicControl) {
+                musicControl.classList.add('visible');
+            }
+
+            autoPlayMusic();
+            startAnimations();
+        });
+    }
+
+    /* ===================== CUENTA REGRESIVA ===================== */
     function updateCountdown() {
         const daysEl = document.getElementById('days');
         const hoursEl = document.getElementById('hours');
         const minutesEl = document.getElementById('minutes');
         const secondsEl = document.getElementById('seconds');
-        
+
         if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
 
         const now = new Date().getTime();
@@ -35,156 +74,190 @@
         secondsEl.textContent = String(seconds).padStart(2, '0');
     }
 
+    /* ===================== MÚSICA ===================== */
     function autoPlayMusic() {
         const music = document.getElementById('background-music');
         if (!music) return;
 
+        music.muted = true;
         const playPromise = music.play();
         if (playPromise !== undefined) {
-            playPromise.catch(function() {
-                console.log('Reproducción automática bloqueada por el navegador');
+            playPromise.then(function() {
+                music.muted = false;
+            }).catch(function() {
+                music.muted = false;
             });
         }
     }
 
-    function trackMouseMovement() {
-        document.addEventListener('mousemove', function(e) {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
+    function toggleMusic() {
+        const music = document.getElementById('background-music');
+        const btn = document.getElementById('music-toggle');
+        if (!music || !btn) return;
 
-        document.addEventListener('touchmove', function(e) {
-            if (e.touches.length > 0) {
-                mouseX = e.touches[0].clientX;
-                mouseY = e.touches[0].clientY;
-            }
-        });
-    }
-
-    function moveFlowersTowardsMouse() {
-        const flowers = document.querySelectorAll('.flower');
-        flowers.forEach(function(flower) {
-            const rect = flower.getBoundingClientRect();
-            const flowerCenterX = rect.left + rect.width / 2;
-            const flowerCenterY = rect.top + rect.height / 2;
-            
-            const dx = mouseX - flowerCenterX;
-            const dy = mouseY - flowerCenterY;
-            const distance = Math.sqrt(dx * dx + dy * dy);
-            
-            // Flores se alejan del cursor (efecto repulsivo)
-            if (distance < 150) {
-                const angle = Math.atan2(dy, dx);
-                const force = (150 - distance) / 150;
-                flower.style.transform = 'translate(' + Math.cos(angle + Math.PI) * force * 40 + 'px, ' + Math.sin(angle + Math.PI) * force * 40 + 'px)';
-            } else {
-                flower.style.transform = 'translate(0, 0)';
-            }
-        });
-    }
-
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
-
-    function createConfetti() {
-        const container = document.getElementById('confetti-container');
-        if (!container) return;
-        
-        const colors = ['#9B59B6', '#D7BDE2', '#AF7AC5', '#F5B041', '#F9E79F', '#E8DAEF'];
-        const shapes = ['square', 'circle'];
-        
-        for (let i = 0; i < 30; i++) {
-            setTimeout(function() {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                
-                const shape = shapes[Math.floor(Math.random() * shapes.length)];
-                const color = colors[Math.floor(Math.random() * colors.length)];
-                
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.backgroundColor = color;
-                confetti.style.animationDuration = (Math.random() * 12 + 15) + 's';
-                confetti.style.animationDelay = Math.random() * 2 + 's';
-                
-                if (shape === 'circle') {
-                    confetti.style.borderRadius = '50%';
-                }
-                
-                container.appendChild(confetti);
-                
-                setTimeout(function() {
-                    confetti.remove();
-                }, 29000);
-            }, i * 100);
+        if (music.paused) {
+            music.play().then(function() {
+                btn.classList.add('reproduciendo');
+            }).catch(function() {
+                console.log('Reproducción bloqueada');
+            });
+        } else {
+            music.pause();
+            btn.classList.remove('reproduciendo');
         }
     }
 
+    /* ===================== CARRUSEL ===================== */
+    function initCarousel() {
+        const slides = document.querySelectorAll('.carousel-slide');
+        const dots = document.querySelectorAll('.dot');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        if (slides.length === 0) return;
+
+        function showSlide(index) {
+            slides.forEach(function(slide) {
+                slide.classList.remove('active');
+            });
+            dots.forEach(function(dot) {
+                dot.classList.remove('active');
+            });
+
+            currentSlide = (index + slides.length) % slides.length;
+            slides[currentSlide].classList.add('active');
+            dots[currentSlide].classList.add('active');
+        }
+
+        if (prevBtn) {
+            prevBtn.addEventListener('click', function() {
+                showSlide(currentSlide - 1);
+            });
+        }
+
+        if (nextBtn) {
+            nextBtn.addEventListener('click', function() {
+                showSlide(currentSlide + 1);
+            });
+        }
+
+        dots.forEach(function(dot) {
+            dot.addEventListener('click', function() {
+                showSlide(parseInt(this.dataset.slide));
+            });
+        });
+    }
+
+    /* ===================== CONFETTI ===================== */
+    function createConfetti() {
+        const container = document.getElementById('confetti-container');
+        if (!container) return;
+
+        const colors = ['#D4AF37', '#F5E6A3', '#9B59B6', '#D7BDE2', '#B8960C'];
+        const shapes = ['square', 'circle'];
+
+        for (let i = 0; i < 40; i++) {
+            setTimeout(function() {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                const color = colors[Math.floor(Math.random() * colors.length)];
+
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = color;
+                confetti.style.animationDuration = (Math.random() * 8 + 10) + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+
+                if (shape === 'circle') {
+                    confetti.style.borderRadius = '50%';
+                }
+
+                container.appendChild(confetti);
+
+                setTimeout(function() {
+                    confetti.remove();
+                }, 20000);
+            }, i * 80);
+        }
+    }
+
+    /* ===================== FLORES ===================== */
     function createFlowers() {
         const container = document.getElementById('flowers-container');
         if (!container) return;
-        
-        const flowers = ['🌸', '💮', '💐', '🌺', '🌷', '🪻', '🪻', '✿', '❀'];
-        
-        for (let i = 0; i < 60; i++) {
+
+        const flowers = ['🌸', '💮', '🌺', '🌷', '✿', '❀'];
+
+        for (let i = 0; i < 30; i++) {
             setTimeout(function() {
                 const flower = document.createElement('div');
                 flower.className = 'flower';
                 flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
-                
+
                 flower.style.left = Math.random() * 100 + '%';
                 flower.style.fontSize = (Math.random() * 1.5 + 1) + 'rem';
-                flower.style.animationDuration = (Math.random() * 40 + 100) + 's';
-                flower.style.animationDelay = Math.random() * 15 + 's';
-                
+                flower.style.animationDuration = (Math.random() * 30 + 60) + 's';
+                flower.style.animationDelay = Math.random() * 10 + 's';
+
                 container.appendChild(flower);
-                
+
                 setTimeout(function() {
                     flower.remove();
-                }, 160000);
-            }, i * 5000);
+                }, 100000);
+            }, i * 3000);
         }
     }
 
-    function startAnimations() {
-        createConfetti();
-        createFlowers();
-        setInterval(createFlowers, 160000);
-        trackMouseMovement();
-        setInterval(moveFlowersTowardsMouse, 50);
-    }
-
+    /* ===================== ANIMACIONES DE SCROLL ===================== */
     function initScrollAnimations() {
-        const sections = document.querySelectorAll('.section');
-        if (sections.length === 0) return;
+        const animatedElements = document.querySelectorAll('.animate__animated');
+        if (animatedElements.length === 0) return;
 
         const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -100px 0px'
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
         };
 
         const observer = new IntersectionObserver(function(entries) {
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+                    entry.target.style.visibility = 'visible';
                     observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
 
-        sections.forEach(function(section) {
-            observer.observe(section);
+        animatedElements.forEach(function(el) {
+            el.style.visibility = 'hidden';
+            observer.observe(el);
         });
     }
 
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
-            startAnimations();
-            initScrollAnimations();
-            autoPlayMusic();
-        });
-    } else {
-        startAnimations();
+    /* ===================== INICIALIZACIÓN ===================== */
+    function startAnimations() {
+        createConfetti();
+        createFlowers();
+        setInterval(createFlowers, 100000);
+    }
+
+    function init() {
+        hidePreloader();
+        initMascara();
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+        initCarousel();
         initScrollAnimations();
-        autoPlayMusic();
+
+        const musicBtn = document.getElementById('music-toggle');
+        if (musicBtn) {
+            musicBtn.addEventListener('click', toggleMusic);
+        }
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
     }
 })();

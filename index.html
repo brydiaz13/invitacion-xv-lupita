@@ -3,192 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta name="description" content="Invitación a los XV Años de María Guadalupe Díaz Santiago - 13 de Junio de 2026">
-    <meta name="theme-color" content="#c9a227">
+    <meta name="description" content="Invitación a los XV Años de María Guadalupe Díaz Santiago - 20 de Junio de 2026">
+    <meta name="theme-color" content="#9B59B6">
     <meta property="og:title" content="XV Años - María Guadalupe">
     <meta property="og:description" content="Te invito a celebrar mis XV Años. ¡No faltes!">
+    <meta property="og:image" content="assets/Foto1.jpeg">
     <meta property="og:type" content="website">
+    <meta property="og:image:width" content="300">
+    <meta property="og:image:height" content="300">
     <title>XV Años - María Guadalupe</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👑</text></svg>">
+    
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div id="confetti-container"></div>
-    <div id="flowers-container"></div>
-    
-    <main class="invitation">
-         <section class="section portada" id="portada">
-            <div class="section-decoration top-left">✿ ✿</div>
-            <div class="section-decoration top-right">✿ ✿</div>
-             <div class="content-wrapper">
-                 <div class="corona">✦ ✦ ✦</div>
-                 <p class="subtitle-presentation">Mis</p>
-                 <h1 class="title">XV Años</h1>
-                 <h2 class="name">María Guadalupe</h2>
-                 <h3 class="surname">Díaz Santiago</h3>
-                 <div class="divider">❧</div>
-                 <p class="date-display">20 de Junio de 2026</p>
-             </div>
-            <div class="section-decoration bottom-left">✿ ✿</div>
-            <div class="section-decoration bottom-right">✿ ✿</div>
-             <div class="scroll-indicator">
-                 <span>Desliza</span>
-                 <div class="arrow">▼</div>
-             </div>
-         </section>
+<body class="bloquea-scroll">
 
-        <section class="section poema" id="poema">
-            <div class="content-wrapper">
-                <div class="poem-container">
-                    <div class="poem-decoration left">✿</div>
-                    <p class="poem-text">
-                        Con amor creciste,<br>
-                        con amor nos llenas,<br>
-                        hoy con amor celebramos<br>
-                        a la joven que eres.
+<!-- Pantalla de Carga -->
+<div id="preloader">
+    <div class="loader-content">
+        <div class="loader-spinner"></div>
+        <h2 class="loader-text">Cargando invitación...</h2>
+    </div>
+</div>
+
+<!-- Máscara de Entrada -->
+<div class="mascara-play" id="mascara">
+    <div class="mascara-inner">
+        <div class="mascara-decoration top-ornament">✿ ✿ ✿</div>
+        <div class="mascara-content">
+            <p class="mascara-pre-title animate__animated animate__fadeInDown animate__delay-1s">Estás invitado a los</p>
+            <h1 class="mascara-title animate__animated animate__fadeInDown animate__delay-2s">XV Años</h1>
+            <h2 class="mascara-name animate__animated animate__fadeInUp animate__delay-2s">María Guadalupe</h2>
+            <div class="mascara-divider animate__animated animate__fadeIn animate__delay-3s">❧</div>
+            <p class="mascara-date animate__animated animate__fadeInUp animate__delay-3s">20 de Junio de 2026</p>
+            <img src="assets/Foto1.jpeg" alt="María Guadalupe" class="mascara-photo animate__animated animate__zoomIn animate__delay-1s" onerror="this.style.display='none'">
+        </div>
+        <div class="mascara-decoration bottom-ornament">✿ ✿ ✿</div>
+        <button class="btn-ver-invitacion animate__animated animate__flipInX animate__delay-4s" id="btnEntrar">
+            <i class="fas fa-envelope-open me-2"></i>Ver Invitación
+        </button>
+    </div>
+</div>
+
+<!-- Control de Música -->
+<div class="music-control" id="musicControl">
+    <button id="music-toggle" class="btn-music" title="Activar música">
+        <i class="fas fa-music"></i>
+    </button>
+</div>
+
+<!-- Confetti y Flores -->
+<div id="confetti-container"></div>
+<div id="flowers-container"></div>
+
+<!-- Contenido Principal -->
+<main class="invitation-content" id="mainContent" style="display: none;">
+
+    <!-- Sección Inicio / Portada -->
+    <section class="section-hero" id="inicio">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-ornament top">✿ ✿ ✿</div>
+            <p class="hero-pre-title animate__animated animate__fadeInDown">Mis</p>
+            <h1 class="hero-title animate__animated animate__fadeInDown animate__delay-1s">XV Años</h1>
+            <h2 class="hero-name animate__animated animate__fadeInUp animate__delay-2s">María Guadalupe</h2>
+            <h3 class="hero-surname animate__animated animate__fadeInUp animate__delay-2s">Díaz Santiago</h3>
+            <div class="hero-divider animate__animated animate__fadeIn animate__delay-3s">❧</div>
+            <p class="hero-date animate__animated animate__fadeInUp animate__delay-3s">20 de Junio de 2026</p>
+            <div class="hero-ornament bottom">✿ ✿ ✿</div>
+        </div>
+        <div class="scroll-indicator">
+            <span>Desliza</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Frase / Dedicatoria -->
+    <section class="section-dedicatoria" id="dedicatoria">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <div class="flor-divider animate__animated animate__fadeIn">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath d='M0 10 Q25 0 50 10 Q75 20 100 10' stroke='%23D4AF37' fill='none' stroke-width='2'/%3E%3C/svg%3E" alt="" class="flor-svg">
+                    </div>
+                    <p class="dedicatoria-texto animate__animated animate__fadeInUp">
+                        "Hoy presento ante Dios y ante ustedes esta nueva etapa de mi vida.
+                        Con gratitud en mi corazón, los invito a celebrar conmigo este hermoso momento."
                     </p>
-                    <div class="poem-decoration right">✿</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="section countdown" id="cuenta-regresiva">
-            <div class="content-wrapper">
-                <h2 class="section-title">Cuenta Regresiva</h2>
-                <div class="countdown-container">
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="days">00</span>
-                        <span class="countdown-label">Días</span>
-                    </div>
-                    <div class="countdown-separator">:</div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="hours">00</span>
-                        <span class="countdown-label">Horas</span>
-                    </div>
-                    <div class="countdown-separator">:</div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="minutes">00</span>
-                        <span class="countdown-label">Minutos</span>
-                    </div>
-                    <div class="countdown-separator">:</div>
-                    <div class="countdown-item">
-                        <span class="countdown-number" id="seconds">00</span>
-                        <span class="countdown-label">Segundos</span>
+                    <div class="flor-divider animate__animated animate__fadeIn">
+                        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 20'%3E%3Cpath d='M0 10 Q25 0 50 10 Q75 20 100 10' stroke='%23D4AF37' fill='none' stroke-width='2'/%3E%3C/svg%3E" alt="" class="flor-svg">
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section event-details" id="detalles">
-            <div class="content-wrapper">
-                <h2 class="section-title">Detalles del Evento</h2>
-                <div class="details-card">
-                    <div class="detail-item">
-                        <div class="detail-icon">📅</div>
-                        <div class="detail-info">
-                            <h3>Fecha</h3>
-                            <p>Sábado, 20 de Junio de 2026</p>
+    <!-- Mis Padres -->
+    <section class="section-padres" id="padres">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title animate__animated animate__zoomIn">Con la bendición de mis padres</h2>
+                <div class="title-divider">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 30'%3E%3Cpath d='M0 15 Q50 0 100 15 Q150 30 200 15' stroke='%23D4AF37' fill='none' stroke-width='2'/%3E%3Ccircle cx='100' cy='15' r='4' fill='%23D4AF37'/%3E%3C/svg%3E" alt="" class="title-divider-svg">
+                </div>
+            </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-5 text-center mb-4">
+                    <div class="padre-card animate__animated animate__fadeInLeft">
+                        <div class="padre-icon"><i class="fas fa-male"></i></div>
+                        <h3 class="padre-nombre">Luciano Díaz Sánchez</h3>
+                        <p class="padre-relacion">Mi Padre</p>
+                    </div>
+                </div>
+                <div class="col-md-1 text-center d-flex align-items-center justify-content-center">
+                    <span class="padre-separador">&</span>
+                </div>
+                <div class="col-md-5 text-center mb-4">
+                    <div class="padre-card animate__animated animate__fadeInRight">
+                        <div class="padre-icon"><i class="fas fa-female"></i></div>
+                        <h3 class="padre-nombre">Laura Joana Santiago López</h3>
+                        <p class="padre-relacion">Mi Madre</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flor-divider-section">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 40'%3E%3Cpath d='M0 20 Q75 5 150 20 Q225 35 300 20' stroke='%23D4AF37' fill='none' stroke-width='2'/%3E%3Ccircle cx='150' cy='20' r='5' fill='%23D4AF37'/%3E%3C/svg%3E" alt="" class="flor-svg-large">
+        </div>
+    </section>
+
+    <!-- Mis Padrinos -->
+    <section class="section-padrinos" id="padrinos">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title animate__animated animate__zoomIn">Mis Padrinos</h2>
+                <div class="title-divider">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 30'%3E%3Cpath d='M0 15 Q50 0 100 15 Q150 30 200 15' stroke='%23D4AF37' fill='none' stroke-width='2'/%3E%3Ccircle cx='100' cy='15' r='4' fill='%23D4AF37'/%3E%3C/svg%3E" alt="" class="title-divider-svg">
+                </div>
+            </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-5 col-lg-4 text-center mb-4">
+                    <div class="padrino-card animate__animated animate__fadeInUp">
+                        <div class="padrino-icon"><i class="fas fa-crown"></i></div>
+                        <h4 class="padrino-titulo">Madrina de Honor</h4>
+                        <div class="padrino-divider"></div>
+                        <h3 class="padrino-nombre">Janethe Santiago López</h3>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-4 text-center mb-4">
+                    <div class="padrino-card animate__animated animate__fadeInUp animate__delay-1s">
+                        <div class="padrino-icon"><i class="fas fa-star"></i></div>
+                        <h4 class="padrino-titulo">Padrino de Honor</h4>
+                        <div class="padrino-divider"></div>
+                        <h3 class="padrino-nombre">Ramiro Díaz Sánchez</h3>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="flor-divider-section">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 40'%3E%3Cpath d='M0 20 Q75 5 150 20 Q225 35 300 20' stroke='%23D4AF37' fill='none' stroke-width='2'/%3E%3Ccircle cx='150' cy='20' r='5' fill='%23D4AF37'/%3E%3C/svg%3E" alt="" class="flor-svg-large">
+        </div>
+    </section>
+
+    <!-- Cuenta Regresiva -->
+    <section class="section-countdown" id="cuenta-regresiva">
+        <div class="countdown-overlay"></div>
+        <div class="container position-relative">
+            <div class="section-header text-center">
+                <h2 class="section-title section-title-light animate__animated animate__zoomIn">Falta poco para el gran día</h2>
+                <div class="title-divider">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 30'%3E%3Cpath d='M0 15 Q50 0 100 15 Q150 30 200 15' stroke='%23D4AF37' fill='none' stroke-width='2'/%3E%3Ccircle cx='100' cy='15' r='4' fill='%23D4AF37'/%3E%3C/svg%3E" alt="" class="title-divider-svg">
+                </div>
+            </div>
+            <div class="countdown-wrapper mt-5">
+                <div class="countdown-box animate__animated animate__fadeInUp">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label">Días</span>
+                </div>
+                <div class="countdown-box animate__animated animate__fadeInUp animate__delay-1s">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label">Horas</span>
+                </div>
+                <div class="countdown-box animate__animated animate__fadeInUp animate__delay-2s">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label">Minutos</span>
+                </div>
+                <div class="countdown-box animate__animated animate__fadeInUp animate__delay-3s">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label">Segundos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detalles del Evento -->
+    <section class="section-detalles" id="detalles">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title animate__animated animate__zoomIn">Detalles del Evento</h2>
+                <div class="title-divider">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 30'%3E%3Cpath d='M0 15 Q50 0 100 15 Q150 30 200 15' stroke='%23D4AF37' fill='none' stroke-width='2'/%3E%3Ccircle cx='100' cy='15' r='4' fill='%23D4AF37'/%3E%3C/svg%3E" alt="" class="title-divider-svg">
+                </div>
+            </div>
+            <div class="row mt-5 justify-content-center">
+                <div class="col-md-5 mb-4">
+                    <div class="detalle-card animate__animated animate__fadeInUp">
+                        <div class="detalle-icon"><i class="fas fa-glass-cheers"></i></div>
+                        <h3 class="detalle-titulo">Recepción</h3>
+                        <div class="detalle-divider"></div>
+                        <p class="detalle-lugar"><strong>Salón La Tortuga</strong></p>
+                        <p class="detalle-direccion">Calle Calmecac, El Cerrito, Zempoala, Hidalgo</p>
+                        <div class="detalle-hora">
+                            <i class="fas fa-clock me-2"></i>4:00 PM
                         </div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-icon">⏰</div>
-                        <div class="detail-info">
-                            <h3>Hora</h3>
-                            <p>3:00 PM - 6:00 PM</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-icon">📍</div>
-                        <div class="detail-info">
-                            <h3>Lugar</h3>
-                            <p>Salón La Tortuga</p>
-                            <p class="address">Calle Calmecac, El Cerrito</p>
-                            <p class="address">Zempoala, Hidalgo</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="map-buttons">
-                    <a href="https://www.google.com/maps/search/Salon+La+Tortuga+El+Cerrito+Zempoala+Hidalgo" target="_blank" class="map-btn google-maps">
-                        <span class="btn-icon">🗺️</span>
-                        Ver en Google Maps
-                    </a>
-                    <a href="https://waze.com/ul?q=El+Cerrito+Zempoala+Hidalgo&navigate=yes" target="_blank" class="map-btn waze">
-                        <span class="btn-icon">🚗</span>
-                        Abrir en Waze
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="section parents" id="padres">
-            <div class="content-wrapper">
-                <h2 class="section-title">Mis Padres</h2>
-                <div class="parents-container">
-                    <div class="parent-card">
-                        <p class="parent-name">Luciano Díaz Sánchez</p>
-                    </div>
-                    <div class="parent-card">
-                        <p class="parent-name">Laura Joana Santiago López</p>
+                        <button class="btn-ubicacion" data-bs-toggle="modal" data-bs-target="#modalRecepcion">
+                            <i class="fas fa-map-marker-alt me-2"></i>Ver Ubicación
+                        </button>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+        <div class="flor-divider-section">
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 40'%3E%3Cpath d='M0 20 Q75 5 150 20 Q225 35 300 20' stroke='%23D4AF37' fill='none' stroke-width='2'/%3E%3Ccircle cx='150' cy='20' r='5' fill='%23D4AF37'/%3E%3C/svg%3E" alt="" class="flor-svg-large">
+        </div>
+    </section>
 
-        <section class="section godparents" id="padrinos">
-            <div class="content-wrapper">
-                <h2 class="section-title">Mis Padrinos</h2>
-                <div class="godparents-container">
-                    <div class="godparent-card">
-                        <p class="godparent-title">Madrina</p>
-                        <p class="godparent-name">Janethe Santiago López</p>
-                    </div>
-                    <div class="godparent-card">
-                        <p class="godparent-title">Padrino</p>
-                        <p class="godparent-name">Ramiro Díaz Sánchez</p>
+    <!-- Modal Recepción -->
+    <div class="modal fade" id="modalRecepcion" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content modal-custom">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-glass-cheers me-2"></i>Recepción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <h3 class="modal-lugar">Salón La Tortuga</h3>
+                    <p class="modal-direccion">Calle Calmecac, El Cerrito, Zempoala, Hidalgo</p>
+                    <p class="modal-abrir">Abrir con:</p>
+                    <div class="modal-maps">
+                        <a href="https://maps.google.com/?q=Salon+La+Tortuga+El+Cerrito+Zempoala+Hidalgo" target="_blank" class="map-link">
+                            <i class="fab fa-google"></i> Google Maps
+                        </a>
+                        <a href="https://waze.com/ul?q=El+Cerrito+Zempoala+Hidalgo&navigate=yes" target="_blank" class="map-link">
+                            <i class="fab fa-waze"></i> Waze
+                        </a>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
 
-         <section class="section gallery" id="galeria">
-              <div class="content-wrapper">
-                  <div class="gallery-grid gallery-centered">
-                      <div class="gallery-item gallery-single">
-                          <img src="assets/Foto1.jpeg" alt="Foto de María Guadalupe" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                          <div class="photo-placeholder" style="display:none;">
-                              <span class="placeholder-icon">📷</span>
-                              <span class="placeholder-text">Agregar foto</span>
-                          </div>
-                      </div>
-                      <div class="gallery-item gallery-single">
-                          <img src="assets/Foto2.jpeg" alt="Foto de María Guadalupe" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                          <div class="photo-placeholder" style="display:none;">
-                              <span class="placeholder-icon">📷</span>
-                              <span class="placeholder-text">Agregar foto</span>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </section>
-
-        <section class="section closing" id="cierre">
-            <div class="content-wrapper">
-                <div class="closing-decoration">✦ ✦ ✦</div>
-                <p class="closing-text">Te esperamos con mucho cariño</p>
-                <h2 class="closing-name">María Guadalupe</h2>
-                <div class="closing-divider">❧</div>
-                <p class="closing-invitation">XV Años</p>
+    <!-- Galería -->
+    <section class="section-galeria" id="galeria">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title animate__animated animate__zoomIn">Mi Galería</h2>
+                <div class="title-divider">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 30'%3E%3Cpath d='M0 15 Q50 0 100 15 Q150 30 200 15' stroke='%23D4AF37' fill='none' stroke-width='2'/%3E%3Ccircle cx='100' cy='15' r='4' fill='%23D4AF37'/%3E%3C/svg%3E" alt="" class="title-divider-svg">
+                </div>
             </div>
-        </section>
-    </main>
+            <div class="gallery-carousel mt-5">
+                <div class="carousel-container">
+                    <div class="carousel-slide active">
+                        <img src="assets/Foto1.jpeg" alt="Foto de María Guadalupe" onerror="this.parentElement.innerHTML='<div class=gallery-placeholder><i class=fas fa-camera></i><p>Foto 1</p></div>';">
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="assets/Foto2.jpeg" alt="Foto de María Guadalupe" onerror="this.parentElement.innerHTML='<div class=gallery-placeholder><i class=fas fa-camera></i><p>Foto 2</p></div>';">
+                    </div>
+                </div>
+                <button class="carousel-btn prev" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                <button class="carousel-btn next" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                <div class="carousel-dots">
+                    <span class="dot active" data-slide="0"></span>
+                    <span class="dot" data-slide="1"></span>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <audio id="background-music" loop autoplay>
-        <source src="assets/music.mp3" type="audio/mpeg">
-    </audio>
+    <!-- Cierre -->
+    <section class="section-cierre" id="cierre">
+        <div class="cierre-overlay"></div>
+        <div class="container position-relative text-center">
+            <div class="cierre-ornament top">✿ ✿ ✿</div>
+            <p class="cierre-texto animate__animated animate__fadeInUp">¡Te esperamos con mucho cariño!</p>
+            <h2 class="cierre-nombre animate__animated animate__fadeInDown animate__delay-1s">María Guadalupe</h2>
+            <div class="cierre-divider animate__animated animate__fadeIn animate__delay-2s">❧</div>
+            <p class="cierre-subtitulo animate__animated animate__fadeInUp animate__delay-2s">XV Años</p>
+            <div class="cierre-ornament bottom">✿ ✿ ✿</div>
+        </div>
+    </section>
 
-    <script src="script.js"></script>
+    <!-- Footer -->
+    <footer class="footer-section">
+        <p>Con todo mi cariño, gracias por ser parte de este momento especial</p>
+        <div class="footer-divider">✿</div>
+    </footer>
+
+</main>
+
+<!-- Audio de fondo -->
+<audio id="background-music" loop>
+    <source src="assets/music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
