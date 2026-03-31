@@ -106,6 +106,7 @@ body.bloquea-scroll {
     z-index: 9000;
     transition: all 1s ease;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .mascara-play::before {
@@ -202,26 +203,20 @@ body.bloquea-scroll {
     box-shadow: var(--sombra-dorada);
 }
 
-.btn-ver-invitacion {
-    background: transparent;
-    border: 2px solid var(--color-dorado);
-    color: var(--color-dorado);
-    padding: 15px 40px;
-    font-family: var(--fuente-subtitulo);
-    font-size: 1.1rem;
+.mascara-hint {
+    font-family: var(--fuente-cuerpo);
+    font-size: 0.85rem;
+    color: var(--color-texto-muted);
     letter-spacing: 3px;
     text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    margin-top: 20px;
-    border-radius: 50px;
+    margin-top: 15px;
+    opacity: 0.6;
+    animation: pulse-hint 2s ease-in-out infinite;
 }
 
-.btn-ver-invitacion:hover {
-    background: var(--color-dorado);
-    color: var(--color-negro);
-    box-shadow: var(--sombra-dorada);
-    transform: translateY(-3px);
+@keyframes pulse-hint {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
 }
 
 /* ===================== CONTROL DE MÚSICA ===================== */
@@ -1212,18 +1207,6 @@ section {
     .mascara-decoration {
         font-size: 1.2rem;
         margin: 10px 0;
-    }
-
-    .btn-ver-invitacion {
-        position: fixed;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 10;
-        padding: 14px 35px;
-        font-size: 1rem;
-        width: 80%;
-        max-width: 300px;
     }
 
     .hero-title {

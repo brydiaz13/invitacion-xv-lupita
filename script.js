@@ -16,14 +16,13 @@
 
     /* ===================== MÁSCARA DE ENTRADA ===================== */
     function initMascara() {
-        const btnEntrar = document.getElementById('btnEntrar');
         const mascara = document.getElementById('mascara');
         const mainContent = document.getElementById('mainContent');
         const musicControl = document.getElementById('musicControl');
 
-        if (!btnEntrar || !mascara) return;
+        if (!mascara) return;
 
-        btnEntrar.addEventListener('click', function() {
+        function abrirInvitacion() {
             mascara.classList.add('oculta');
             document.body.classList.remove('bloquea-scroll');
 
@@ -40,6 +39,12 @@
 
             autoPlayMusic();
             startAnimations();
+        }
+
+        mascara.addEventListener('click', abrirInvitacion);
+        mascara.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            abrirInvitacion();
         });
     }
 
